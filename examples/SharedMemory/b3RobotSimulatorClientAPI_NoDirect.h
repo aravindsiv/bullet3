@@ -762,6 +762,8 @@ public:
 
 	bool resetJointState(int bodyUniqueId, int jointIndex, double targetValue);
 
+	bool resetJointVelocity(int bodyUniqueId, int jointIndex, double targetValue);
+
 	void setJointMotorControl(int bodyUniqueId, int jointIndex, const struct b3RobotSimulatorJointMotorArgs &args);
 
 	bool setJointMotorControlArray(int bodyUniqueId, int controlMode, int numControlledDofs,

@@ -797,6 +797,30 @@ bool b3RobotSimulatorClientAPI_NoDirect::resetJointState(int bodyUniqueId, int j
 	return false;
 }
 
+bool b3RobotSimulatorClientAPI_NoDirect::resetJointVelocity(int bodyUniqueId, int jointIndex, double targetValue)
+{
+	if (!isConnected())
+	{
+		b3Warning("Not connected");
+		return false;
+	}
+	b3SharedMemoryCommandHandle commandHandle;
+	b3SharedMemoryStatusHandle statusHandle;
+	int numJoints;
+
+	numJoints = b3GetNumJoints(m_data->m_physicsClientHandle, bodyUniqueId);
+	if ((jointIndex >= numJoints) || (jointIndex < 0))
+	{
+		return false;
+	}
+
+	commandHandle = b3CreatePoseCommandInit(m_data->m_physicsClientHandle, bodyUniqueId);
+	b3CreatePoseCommandSetJointVelocity(m_data->m_physicsClientHandle,commandHandle,jointIndex,targetValue);
+
+	statusHandle = b3SubmitClientCommandAndWaitStatus(m_data->m_physicsClientHandle, commandHandle);
+	return false;
+}
+
 void b3RobotSimulatorClientAPI_NoDirect::setJointMotorControl(int bodyUniqueId, int jointIndex, const b3RobotSimulatorJointMotorArgs& args)
 {
 	if (!isConnected())
@@ -1842,6 +1866,11 @@ bool b3RobotSimulatorClientAPI_NoDirect::setPhysicsEngineParameter(const struct 
 	if (args.m_numSolverIterations >= 0)
 	{
 		b3PhysicsParamSetNumSolverIterations(command, args.m_numSolverIterations);
+	}
+
+	if (args.m_deterministicOverlappingPairs >= 0)
+	{
+		b3PhysicsParameterSetDeterministicOverlappingPairs(command, args.m_deterministicOverlappingPairs);
 	}
 
 	if (args.m_collisionFilterMode >= 0)
