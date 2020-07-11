@@ -891,6 +891,7 @@ public:
 
 	int saveStateToMemory();
 	void restoreStateFromMemory(int stateId);
+	void removeStateFromMemory(int stateId);
 
 	int getAPIVersion() const
 	{

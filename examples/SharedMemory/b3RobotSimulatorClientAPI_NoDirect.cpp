@@ -2575,6 +2575,30 @@ void b3RobotSimulatorClientAPI_NoDirect::restoreStateFromMemory(int stateId)
 	statusType = b3GetStatusType(statusHandle);
 }
 
+void b3RobotSimulatorClientAPI_NoDirect::removeStateFromMemory(int stateId)
+{
+	b3PhysicsClientHandle sm = m_data->m_physicsClientHandle;
+
+	if (sm == 0)
+	{
+		b3Warning("Not connected");
+		return;
+	}
+
+	int statusType;
+	b3SharedMemoryCommandHandle command;
+	b3SharedMemoryStatusHandle statusHandle;
+
+	if (stateId > 0)
+	{
+		command = b3InitRemoveStateCommand(sm,stateId);
+	}
+
+	statusHandle = b3SubmitClientCommandAndWaitStatus(sm, command);
+	statusType = b3GetStatusType(statusHandle);
+}
+
+
 bool b3RobotSimulatorClientAPI_NoDirect::getVisualShapeData(int bodyUniqueId, b3VisualShapeInformation& visualShapeInfo)
 {
 	b3PhysicsClientHandle sm = m_data->m_physicsClientHandle;
