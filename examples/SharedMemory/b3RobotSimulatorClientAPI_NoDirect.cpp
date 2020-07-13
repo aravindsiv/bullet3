@@ -254,6 +254,7 @@ int b3RobotSimulatorClientAPI_NoDirect::loadURDF(const std::string& fileName, co
 		b3LoadUrdfCommandSetUseFixedBase(command, true);
 	}
 	b3LoadUrdfCommandSetUseMultiBody(command, args.m_useMultiBody);
+	b3LoadUrdfCommandSetGlobalScaling(command, args.m_globalScaling);
 	statusHandle = b3SubmitClientCommandAndWaitStatus(m_data->m_physicsClientHandle, command);
 	statusType = b3GetStatusType(statusHandle);
 
