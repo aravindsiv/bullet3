@@ -13072,6 +13072,8 @@ bool PhysicsServerCommandProcessor::processSaveStateCommand(const struct SharedM
 			m_data->m_savedStates.push_back(sd);
 		}
 	}
+	delete ser;
+	delete bulletFile;
 	return hasStatus;
 }
 
